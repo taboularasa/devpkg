@@ -18,7 +18,7 @@ int Command_depends(apr_pool_t *p, const char *path)
 
     for(line = bgets((bNgetc)fgetc, in, '\n');
         line != NULL;
-        line = bgets((bNgetc)fgetc, in, '\n')
+        line = bgets((bNgetc)fgetc, in, '\n'))
     {
         btrimws(line);
         log_info("Processing depends: %s", bdata(line));
@@ -38,7 +38,7 @@ error:
 
 int Command_fetch(apr_pool_t *p, const char *url, int fetch_only)
 {
-    apr_uri_t info = {.port = 0}
+    apr_uri_t info = {.port = 0};
     int rc = 0;
     const char *depends_file = NULL;
 
@@ -47,7 +47,7 @@ int Command_fetch(apr_pool_t *p, const char *url, int fetch_only)
 
     if(apr_fnmatch(GIT_PAT, info.path, 0) == APR_SUCCESS) {
         rc = Shell_exec(GIT_SH, "URL", url, NULL);
-        check(rc == 0, 'git failed.');
+        check(rc == 0, "git failed.");
     } else if(apr_fnmatch(DEPEND_PAT, info.path, 0) == APR_SUCCESS) {
         check(!fetch_only, "No point in fetching a DEPENDS file.")
 
@@ -86,7 +86,7 @@ int Command_fetch(apr_pool_t *p, const char *url, int fetch_only)
         }
 
         apr_status_t rc = apr_dir_make_recursive(BUILD_DIR,
-                    APR_UREAD, APR_UWRITE | APR_UEXECUTE, p);
+                    APR_UREAD| APR_UWRITE | APR_UEXECUTE, p);
         check(rc == 0, "Failed to make directory %s", BUILD_DIR);
 
         rc = Shell_exec(TAR_SH, "FILE", TAR_BZ2_SRC, NULL);

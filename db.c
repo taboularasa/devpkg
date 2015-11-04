@@ -59,7 +59,7 @@ int DB_find(const char *url)
 {
     bstring data = NULL;
     bstring line = bfromcstr(url);
-    int rest = -1;
+    int res = -1;
 
     data = DB_load();
     check(data, "Failed to load: %s", DB_FILE);

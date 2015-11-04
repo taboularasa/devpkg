@@ -7,7 +7,7 @@ int Shell_exec(Shell template, ...)
     apr_pool_t *p = NULL;
     int rc = -1;
     apr_status_t rv = APR_SUCCESS;
-    va_list = argp;
+    va_list argp;
     const char *key = NULL;
     const char *arg = NULL;
     int i = 0;
@@ -59,10 +59,10 @@ int Shell_run(apr_pool_t *p, Shell *cmd)
     rv = apr_proc_create(&newproc, cmd->exe, cmd->args, NULL, attr, p);
     check(rv == APR_SUCCESS, "Failed to run command");
 
-    rv = apr_proc_wait(&newproc, &cmd->exit_code, &cmd-exit_why, APR_WAIT);
+    rv = apr_proc_wait(&newproc, &cmd->exit_code, &cmd->exit_why, APR_WAIT);
     check(rv == APR_CHILD_DONE, "Failed to wait.");
 
-    check(cmd->exit_code == 0, "%s exited badly.", cmd-exe);
+    check(cmd->exit_code == 0, "%s exited badly.", cmd->exe);
     check(cmd->exit_why == APR_PROC_EXIT, "%s was killed or crashed", cmd->exe);
 
     return 0;
